@@ -1,0 +1,4 @@
+*.wav
+*.exe
+
+cmake-build-debug/
