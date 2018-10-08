@@ -59,7 +59,8 @@ int main()
                 }
 
                 ReadBuffer(float_left, float_right, SHIFT_SIZE, InputBuffer, WINDOW_SIZE);
-                MMSESTSA85(InputBuffer, OutputBuffer);
+                int SpeechFlag = MMSESTSA85(InputBuffer, OutputBuffer);
+                DEBUG("%d ", SpeechFlag);
                 WriteBuffer(OutputBuffer, WINDOW_SIZE, float_left, float_right, SHIFT_SIZE);
 
                 for (int i = 0; i < SHIFT_SIZE * 2; i += 2)
