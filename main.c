@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include "mmsestsa85.h"
 
-float float_left[WINDOW_SIZE];
-float float_right[WINDOW_SIZE];
+float float_left[SHIFT_SIZE];
+float float_right[SHIFT_SIZE];
+
+float InputBuffer[WINDOW_SIZE * 2];
+float OutputBuffer[WINDOW_SIZE * 2];
 
 typedef struct header_file
 {
@@ -26,15 +29,13 @@ typedef struct header_file *header_p;
 
 int main()
 {
-    FILE *inFile = fopen("../wav/2.wav", "rb");                 // Open wave file in read mode
-    FILE *outFile = fopen("../wav/2-MMSE.wav", "wb");     // Create output ( wave format) file in write mode
+    FILE *inFile = fopen("../wav/2.wav", "rb");       // Open wave file in read mode
+    FILE *outFile = fopen("../wav/2-MMSE.wav", "wb"); // Create output ( wave format) file in write mode
 
     int count = 0;                                    // For counting number of frames in wave file.
-    short buff[WINDOW_SIZE *
-               2];                              // short int used for 16 bit as input data format is 16 bit PCM audio
-    header_p meta = (header_p) malloc(
-            sizeof(header)); // header_p points to a header struct that contains the wave file metadata fields
-    unsigned int nb;                                           // variable storing number of byes returned
+    short buff[WINDOW_SIZE * 2];                      // short int used for 16 bit as input data format is 16 bit PCM audio
+    header_p meta = (header_p)malloc(sizeof(header)); // header_p points to a header struct that contains the wave file metadata fields
+    unsigned int nb;                                  // variable storing number of byes returned
 
     if (inFile)
     {
@@ -46,25 +47,25 @@ int main()
 
         while (!feof(inFile))
         {
-            nb = fread(buff, sizeof(short), WINDOW_SIZE * 2, inFile); // Reading data in chunks of BUFSIZE
+            nb = fread(buff, sizeof(short), SHIFT_SIZE * 2, inFile); // Reading data in chunks of BUFSIZE
             if (nb != 0)
             {
                 count++; // Incrementing Number of frames
 
-                for (int i = 0; i < WINDOW_SIZE * 2; i += 2)
+                for (int i = 0; i < SHIFT_SIZE * 2; i += 2)
                 {
-                    float_left[i / 2] = (float) buff[i];
-                    float_right[i / 2] = (float) buff[i + 1];
+                    float_left[i / 2] = (float)buff[i];
+                    float_right[i / 2] = (float)buff[i + 1];
                 }
 
-//                ReadBuffer(float_left, float_right, DataSize, ICAInput, BufferSize);
-//                FastICA(ICAInput, ICAOutput);
-//                WriteBuffer(ICAOutput, BufferSize, float_left, float_right, DataSize);
+                ReadBuffer(float_left, float_right, SHIFT_SIZE, InputBuffer, WINDOW_SIZE);
+                MMSESTSA85(InputBuffer, OutputBuffer);
+                WriteBuffer(OutputBuffer, WINDOW_SIZE, float_left, float_right, SHIFT_SIZE);
 
-                for (int i = 0; i < WINDOW_SIZE * 2; i += 2)
+                for (int i = 0; i < SHIFT_SIZE * 2; i += 2)
                 {
-                    buff[i] = (short) float_left[i / 2];
-                    buff[i + 1] = (short) float_right[i / 2];
+                    buff[i] = (short)float_left[i / 2];
+                    buff[i + 1] = (short)float_right[i / 2];
                 }
                 fwrite(buff, sizeof(short), nb, outFile); // Writing read data into output file
             }

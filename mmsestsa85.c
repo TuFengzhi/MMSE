@@ -5,15 +5,18 @@
 #include "mmsestsa85.h"
 
 // TODO: Add MMSESTSA85
-float N[HALF_WINDOW_SIZE]; // Noise Power Spectrum mean
-float LambdaD;             // Noise Power Spectrum variance
+float N[HALF_WINDOW_SIZE];       // Noise Power Spectrum mean
+float LambdaD[HALF_WINDOW_SIZE]; // Noise Power Spectrum variance
 int N_Count = 0;
+int NoiseCounter = 0;
+float G[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
+float Gamma[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
 
 int MMSESTSA85(float *Signal, float *OutputSignal)
 {
     for (int i = 0; i < WINDOW_SIZE; i++)
     {
-        OutputSignal[i] = Signal[i] * Hamming_640[i];
+        OutputSignal[i] = Signal[i] * HammingWindows[i];
     }
 
     float Y[HALF_WINDOW_SIZE];
@@ -36,33 +39,36 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
         Y[i] = sqrtf(creal(CY[i]) * creal(CY[i]) + cimag(CY[i]) * cimag(CY[i]));
     }
 
-    //    if (N_Count < NIS)
-    //    {
-    //        for (int i = 0; i < HALF_WINDOW_SIZE; i++)
-    //        {
-    //            N[i] += Y[i];
-    //        }
-    //        N_Count++;
-    //        // TODO: Initial silence segment: Post-Processing
-    //
-    //        return 1;
-    //    }
-    //    else if (N_Count == NIS)
-    //    {
-    //        for (int i = 0; i < HALF_WINDOW_SIZE; i++)
-    //        {
-    //            N[i] /= NIS;
-    //        }
-    //        N_Count++;
-    //
-    //        LambdaD=mean((Y(:,1:NIS)').^2)';%
-    //        // TODO: Initial silence end: Post-Processing
-    //
-    //        return 1;
-    //    }
+    if (N_Count < NIS)
+    {
+        for (int i = 0; i < HALF_WINDOW_SIZE; i++)
+        {
+            N[i] += Y[i];
+            LambdaD[i] += Y[i] * Y[i];
+        }
+        N_Count++;
+        // TODO: Initial silence segment: Post-Processing
 
-    //
-    //    PitchVad(Y, T1, SF);
+        return 0;
+    }
+    else if (N_Count == NIS)
+    {
+        for (int i = 0; i < HALF_WINDOW_SIZE; i++)
+        {
+            N[i] /= NIS;
+            LambdaD[i] /= NIS;
+        }
+        N_Count++;
+
+        PrintFloatArray(LambdaD, HALF_WINDOW_SIZE);
+
+        // TODO: Initial silence end: Post-Processing
+
+        return 0;
+    }
+
+    // TODO: Magnitude Spectrum Distance VAD
+    VAD(Y, T1, SF);
     //
     //    int NoiseLength = 9;
     //    float Beta = 0.03;
@@ -181,9 +187,18 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
 //    }
 //}
 
-//void Hamming(const int length, float *wnd)
-//{
-//    int i = 0;
-//    for (i = 0; i < length; i++)
-//        wnd[i] = 0.54F - 0.46F * cos(2.0F * PI * (float)i / (length - 1));
-//}
+void ReadBuffer(float *Left, float *Right, int StepSize, float *Buffer, int BufferSize)
+{
+    // Read Buffer to the end of ICAInput
+    memcpy(Buffer, Buffer + StepSize, (BufferSize - StepSize) * sizeof(float));
+    memcpy(Buffer + BufferSize, Buffer + BufferSize + StepSize, (BufferSize - StepSize) * sizeof(float));
+    memcpy(Buffer + BufferSize - StepSize, Left, StepSize * sizeof(float));
+    memcpy(Buffer + BufferSize * 2 - StepSize, Right, StepSize * sizeof(float));
+}
+
+void WriteBuffer(float *Buffer, int BufferSize, float *Left, float *Right, int StepSize)
+{
+    // Write Buffer from the end of ICAOutput
+    memcpy(Left, Buffer + BufferSize - StepSize, StepSize * sizeof(float));
+    memcpy(Right, Buffer + BufferSize * 2 - StepSize, StepSize * sizeof(float));
+}

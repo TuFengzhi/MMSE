@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <complex.h>
 
+#define __DEBUG__
+
 #ifdef __DEBUG__
 #define ERROR_INFO(format, ...) printf("File: "__FILE__              \
                                        ", Line: %05d: " format "/n", \
