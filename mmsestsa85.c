@@ -185,6 +185,6 @@ void ReadBuffer(float *Left, float *Right, int StepSize, float *Buffer, int Buff
 void WriteBuffer(float *Buffer, int BufferSize, float *Left, float *Right, int StepSize)
 {
     // Write Buffer from the end of ICAOutput
-    memcpy(Left, Buffer + BufferSize - StepSize, StepSize * sizeof(float));
-    memcpy(Right, Buffer + BufferSize * 2 - StepSize, StepSize * sizeof(float));
+    memcpy(Left, Buffer, StepSize * sizeof(float));
+    memcpy(Right, Buffer + BufferSize, StepSize * sizeof(float));
 }
