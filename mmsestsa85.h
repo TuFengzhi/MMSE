@@ -11,6 +11,7 @@
 #include "fft.h"
 #include "debugtools.h"
 #include "exponential_integral_Ei.h"
+#include "ifft.h"
 
 #define PI 3.14159265359
 #define SAMPLE_RATE 16000

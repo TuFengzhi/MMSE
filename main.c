@@ -63,8 +63,7 @@ int main()
                 }
 
                 ReadBuffer(float_left, float_right, SHIFT_SIZE, InputBuffer, WINDOW_SIZE);
-                if (count <= 25)
-                    MMSESTSA85(InputBuffer, OutputBuffer);
+                MMSESTSA85(InputBuffer, OutputBuffer);
                 WriteBuffer(OutputBuffer, WINDOW_SIZE, float_left, float_right, SHIFT_SIZE);
 
                 for (int i = 0; i < SHIFT_SIZE * 2; i += 2)

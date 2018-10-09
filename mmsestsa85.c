@@ -13,6 +13,7 @@ float G[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
 float Gamma[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
 int SpeechFlag = 0;
 float X[HALF_WINDOW_SIZE];
+float RemainSignal[WINDOW_SIZE - SHIFT_SIZE];
 
 float Mean(float *Data, int Length)
 {
@@ -56,47 +57,39 @@ int VAD(float *Signal, float *Noise, int *NoiseCounter)
 
 // Y=OverlapAdd(X,A,W,S);
 // Y is the signal reconstructed signal from its spectrogram. X is a matrix with each column being the fft of a segment of signal. A is the phase angle of the spectrum which should have the same dimension as X. if it is not given the phase angle of X is used which in the case of real values is zero (assuming that its the magnitude). W is the window length of time domain segments if not given the length is assumed to be twice as long as fft window length. S is the shift length of the segmentation process ( for example in the case of non overlapping signals it is equal to W and in the case of %50 overlap is equal to W/2. if not givven W/2 is used. Y is the reconstructed time domain signal.
-void OverlapAdd2(float *XNEW, float *ReconstructedSignal, float *yphase, int windowLen, int ShiftLen)
+void OverlapAdd2(float *XNEW, float *ReconstructedSignal, float *yphase)
 {
-    //    float complex Spec[WINDOW_SIZE * SEGMENT_NUM];
-    //    memset(Spec, 0, WINDOW_SIZE * SEGMENT_NUM * sizeof(float complex));
-    //    for (int i = 0; i < SEGMENT_NUM; i ++)
-    //    {
-    //        for (int j = 0; j < HALF_WINDOWS_SIZE; j ++)
-    //        {
-    //            Spec[i * WINDOW_SIZE + j] = XNEW[i * HALF_WINDOWS_SIZE + j] * cexpf(I * yphase[i * HALF_WINDOWS_SIZE + j]);
-    //        }
-    //    }
-    //
-    //    for (int i = 0; i < SEGMENT_NUM; i ++)
-    //    {
-    //        for (int j = 1; j < HALF_WINDOWS_SIZE - 1; j ++)
-    //        {
-    //            Spec[i * WINDOW_SIZE + WINDOW_SIZE - j] = conjf(Spec[i * WINDOW_SIZE + j]);
-    //        }
-    //    }
-    //
-    //    int sigLength = ((SEGMENT_NUM - 1) * FRAME_STEP_SIZE + WINDOW_SIZE);
-    //    DEBUG("True Output Length: %d\n", sigLength);
-    //
-    //    // Reconstruct the new signal
-    //    for (int i = 0; i < SEGMENT_NUM; i ++)
-    //    {
-    //        int start = i * FRAME_STEP_SIZE;
-    //        float complex spec[WINDOW_SIZE];
-    //        memcpy(spec, Spec + i * WINDOW_SIZE, WINDOW_SIZE * sizeof(float complex));
-    //        ift(spec, WINDOW_SIZE);
-    //        for (int j = start; j < start + WINDOW_SIZE; j ++)
-    //        {
-    //            ReconstructedSignal[j] += creal(spec[j - start]);
-    //        }
-    //    }
+    float complex Spec[WINDOW_SIZE];
+    // conj(Spec)
+    for (int i = 0; i < HALF_WINDOW_SIZE; i++)
+    {
+        Spec[i] = XNEW[i] * cexpf(I * yphase[i]);
+    }
+    for (int i = 1; i < HALF_WINDOW_SIZE - 1; i++)
+    {
+        Spec[WINDOW_SIZE - i] = conjf(Spec[i]);
+    }
+
+    // Reconstruct the new signal
+    ift(Spec, WINDOW_SIZE);
+    for (int i = 0; i < WINDOW_SIZE; i++)
+    {
+        ReconstructedSignal[i] = crealf(Spec[i]);
+    }
+    for (int i = 0; i < WINDOW_SIZE - SHIFT_SIZE; i++)
+    {
+        ReconstructedSignal[i] += RemainSignal[i];
+    }
+    for (int i = SHIFT_SIZE; i < WINDOW_SIZE; i++)
+    {
+        RemainSignal[i - SHIFT_SIZE] = ReconstructedSignal[i];
+    }
 }
 
 int MMSESTSA85(float *Signal, float *OutputSignal)
 {
     N_Count++;
-    DEBUG("Count: %d\n", N_Count);
+
     for (int i = 0; i < WINDOW_SIZE; i++)
     {
         OutputSignal[i] = Signal[i] * HammingWindows[i];
@@ -175,8 +168,7 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
         X[i] = G[i] * Y[i];
     }
 
-    PrintFloatArray(X, HALF_WINDOW_SIZE);
-    OverlapAdd2(X, OutputSignal, YPhase, WINDOW_SIZE, SHIFT_SIZE);
+    OverlapAdd2(X, OutputSignal, YPhase);
 
     return SpeechFlag;
 }
