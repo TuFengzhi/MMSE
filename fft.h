@@ -1,6 +1,7 @@
 //
 // David Barina <ibarina@fit.vutbr.cz>
 //
+
 #ifndef FFT_H
 #define FFT_H
 

@@ -12,10 +12,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd428436-8686-4ade-892f-91722c42d2ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/tufen.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exponential_integral_Ei.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exponential_integral_Ei.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debugtools.c" beforeDir="false" afterPath="$PROJECT_DIR$/debugtools.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debugtools.h" beforeDir="false" afterPath="$PROJECT_DIR$/debugtools.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fft.c" beforeDir="false" afterPath="$PROJECT_DIR$/fft.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fft.h" beforeDir="false" afterPath="$PROJECT_DIR$/fft.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ifft.c" beforeDir="false" afterPath="$PROJECT_DIR$/ifft.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ifft.h" beforeDir="false" afterPath="$PROJECT_DIR$/ifft.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mmsestsa85.c" beforeDir="false" afterPath="$PROJECT_DIR$/mmsestsa85.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mmsestsa85.h" beforeDir="false" afterPath="$PROJECT_DIR$/mmsestsa85.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,41 +59,46 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="c" value="2242" />
+          <entry key="c" value="3100" />
           <entry key="gitignore" value="29" />
-          <entry key="h" value="614" />
+          <entry key="h" value="650" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="2856" />
+          <entry key="ObjectiveC" value="3750" />
           <entry key="PLAIN_TEXT" value="29" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="c" value="4" />
+          <entry key="Build All (disassembly)" value="2" />
+          <entry key="c" value="13" />
           <entry key="gitignore" value="1" />
-          <entry key="h" value="4" />
-          <entry key="txt" value="3" />
+          <entry key="h" value="9" />
+          <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CMakeLists.txt" value="3" />
-          <entry key="ObjectiveC" value="8" />
+          <entry key="CMakeLists.txt" value="4" />
+          <entry key="Disassembly" value="2" />
+          <entry key="ObjectiveC" value="22" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
     </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="MMSE" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="62" column="41" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
+            <state relative-caret-position="598">
+              <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -95,8 +109,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mmsestsa85.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="120" column="13" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
+            <state relative-caret-position="385">
+              <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exponential_integral_Ei.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4320">
+              <caret line="241" column="41" selection-start-line="241" selection-start-column="41" selection-end-line="241" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -104,32 +127,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mmsestsa85.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-554">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="211">
+              <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
               <folding>
                 <element signature="e#99#116#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debugtools.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
-              <caret line="6" column="20" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debugtools.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="13" />
-              <folding>
-                <element signature="e#94#112#0" expanded="true" />
-                <element signature="e#423#473#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,6 +145,7 @@
       <find>MMSESTSA85</find>
       <find>mmsestsa85.h</find>
       <find>Variance</find>
+      <find>Exponential_Integral_Ei</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,21 +159,23 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/fft.h" />
-        <option value="$PROJECT_DIR$/fft.c" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/ifft.h" />
-        <option value="$PROJECT_DIR$/ifft.c" />
         <option value="$PROJECT_DIR$/debugtools.c" />
         <option value="$PROJECT_DIR$/debugtools.h" />
-        <option value="$PROJECT_DIR$/mmsestsa85.h" />
+        <option value="$PROJECT_DIR$/ifft.h" />
+        <option value="$PROJECT_DIR$/ifft.c" />
+        <option value="$PROJECT_DIR$/fft.h" />
+        <option value="$PROJECT_DIR$/fft.c" />
+        <option value="$PROJECT_DIR$/exponential_integral_Ei.c" />
+        <option value="$PROJECT_DIR$/exponential_integral_Ei.h" />
         <option value="$PROJECT_DIR$/main.c" />
+        <option value="$PROJECT_DIR$/mmsestsa85.h" />
         <option value="$PROJECT_DIR$/mmsestsa85.c" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -231,7 +235,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Build All">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MMSE" TARGET_NAME="MMSE" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MMSE" RUN_TARGET_NAME="MMSE">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MMSE" RUN_TARGET_NAME="MMSE" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -255,12 +259,12 @@
       <updated>1538279900308</updated>
       <workItem from="1538279902093" duration="1400000" />
       <workItem from="1538281519385" duration="17164000" />
-      <workItem from="1538959502753" duration="20082000" />
+      <workItem from="1538959502753" duration="29354000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38646000" />
+    <option name="totallyTimeSpent" value="47918000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -273,15 +277,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18176973" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49853802" visible="true" weight="0.18176973" />
+      <window_info id="Structure" order="1" sideWeight="0.5016835" side_tool="true" weight="0.18176973" />
+      <window_info id="Favorites" order="2" sideWeight="0.501462" side_tool="true" weight="0.18176973" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4989339" weight="0.32899022" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.257329" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49253732" visible="true" weight="0.3355049" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49733475" visible="true" weight="0.257329" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49253732" weight="0.35504887" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4989339" weight="0.32899022" />
@@ -301,50 +304,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fft.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#74#94#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="18" selection-start-line="3" selection-end-line="3" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fft.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-954">
-          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-          <folding>
-            <element signature="e#45#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ifft.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
-          <folding>
-            <element signature="e#74#94#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ifft.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-          <folding>
-            <element signature="e#45#62#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -355,48 +318,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debugtools.c">
+    <entry file="file://$PROJECT_DIR$/ifft.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="20" />
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#45#62#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mmsestsa85.h">
+    <entry file="file://$PROJECT_DIR$/fft.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-554">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
-            <element signature="e#99#116#0" expanded="true" />
+            <element signature="e#74#94#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fft.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#45#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ifft.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#74#94#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debugtools.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="90">
+          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
           <folding>
-            <element signature="e#94#112#0" expanded="true" />
-            <element signature="e#423#473#0" expanded="true" />
+            <element signature="e#427#477#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debugtools.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exponential_integral_Ei.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="35" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="62" column="41" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
+        <state relative-caret-position="598">
+          <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mmsestsa85.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+          <folding>
+            <element signature="e#99#116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exponential_integral_Ei.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4320">
+          <caret line="241" column="41" selection-start-line="241" selection-start-column="41" selection-end-line="241" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mmsestsa85.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="120" column="13" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
+        <state relative-caret-position="385">
+          <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
         </state>
       </provider>
     </entry>

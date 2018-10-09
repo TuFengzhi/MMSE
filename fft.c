@@ -1,6 +1,7 @@
 //
 // David Barina <ibarina@fit.vutbr.cz>
 //
+
 #include "fft.h"
 #include <math.h>
 #include <stdlib.h>
@@ -32,8 +33,8 @@ static void fft_split(const float complex *x, float complex *X, size_t N, float 
 {
     for (size_t n = 0; n < N / 2; n++)
     {
-        X[0 / 2 + n] = x[2 * n + 0] + x[2 * n + 1] * cexp(-2 * (float) M_PI * I * phi);
-        X[N / 2 + n] = x[2 * n + 0] - x[2 * n + 1] * cexp(-2 * (float) M_PI * I * phi);
+        X[0 / 2 + n] = x[2 * n + 0] + x[2 * n + 1] * cexp(-2 * (float)M_PI * I * phi);
+        X[N / 2 + n] = x[2 * n + 0] - x[2 * n + 1] * cexp(-2 * (float)M_PI * I * phi);
     }
 }
 
@@ -76,7 +77,7 @@ static int fft_reverse(int b, float complex *buffers[2], size_t N)
 
         for (size_t n = 0; n < N; n += delta)
         {
-            float complex phi = (float) revbits(n / delta, j) / (float) (2 << j);
+            float complex phi = (float)revbits(n / delta, j) / (float)(2 << j);
             fft_split(buffers[b & 1] + n, buffers[~b & 1] + n, delta, phi);
         }
     }

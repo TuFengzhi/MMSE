@@ -1,3 +1,7 @@
+//
+// Created by Tu Fengzhi on 2018/9/30.
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "mmsestsa85.h"
@@ -59,8 +63,8 @@ int main()
                 }
 
                 ReadBuffer(float_left, float_right, SHIFT_SIZE, InputBuffer, WINDOW_SIZE);
-                int SpeechFlag = MMSESTSA85(InputBuffer, OutputBuffer);
-                DEBUG("%d ", SpeechFlag);
+                if (count <= 25)
+                    MMSESTSA85(InputBuffer, OutputBuffer);
                 WriteBuffer(OutputBuffer, WINDOW_SIZE, float_left, float_right, SHIFT_SIZE);
 
                 for (int i = 0; i < SHIFT_SIZE * 2; i += 2)

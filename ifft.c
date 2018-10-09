@@ -1,6 +1,7 @@
 //
 // David Barina <ibarina@fit.vutbr.cz>
 //
+
 #include "ifft.h"
 #include <math.h>
 #include <stdlib.h>

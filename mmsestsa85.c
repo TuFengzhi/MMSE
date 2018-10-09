@@ -12,6 +12,7 @@ int NoiseCounter = 0;
 float G[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
 float Gamma[HALF_WINDOW_SIZE] = {[0 ... HALF_WINDOW_SIZE - 1] = 1};
 int SpeechFlag = 0;
+float X[HALF_WINDOW_SIZE];
 
 float Mean(float *Data, int Length)
 {
@@ -25,7 +26,6 @@ float Mean(float *Data, int Length)
 
 // Spectral Distance Voice Activity Detector
 // SIGNAL is the the current frames magnitude spectrum which is to labeld as noise or speech, NOISE is noise magnitude spectrum template (estimation), NOISECOUNTER is the number of imediate previous noise frames, NOISEMARGIN (default 3)is the spectral distance threshold. HANGOVER ( default 8 )is the number of noise segments after which the SPEECHFLAG is reset (goes to zero). NOISEFLAG is set to one if the the segment is labeld as noise NOISECOUNTER returns the number of previous noise segments, this value is reset (to zero) whenever a speech segment is detected. DIST is the spectral distance.
-
 int VAD(float *Signal, float *Noise, int *NoiseCounter)
 {
     int NoiseMargin = 3;
@@ -54,8 +54,49 @@ int VAD(float *Signal, float *Noise, int *NoiseCounter)
     return SpeechFlag;
 }
 
+// Y=OverlapAdd(X,A,W,S);
+// Y is the signal reconstructed signal from its spectrogram. X is a matrix with each column being the fft of a segment of signal. A is the phase angle of the spectrum which should have the same dimension as X. if it is not given the phase angle of X is used which in the case of real values is zero (assuming that its the magnitude). W is the window length of time domain segments if not given the length is assumed to be twice as long as fft window length. S is the shift length of the segmentation process ( for example in the case of non overlapping signals it is equal to W and in the case of %50 overlap is equal to W/2. if not givven W/2 is used. Y is the reconstructed time domain signal.
+void OverlapAdd2(float *XNEW, float *ReconstructedSignal, float *yphase, int windowLen, int ShiftLen)
+{
+    //    float complex Spec[WINDOW_SIZE * SEGMENT_NUM];
+    //    memset(Spec, 0, WINDOW_SIZE * SEGMENT_NUM * sizeof(float complex));
+    //    for (int i = 0; i < SEGMENT_NUM; i ++)
+    //    {
+    //        for (int j = 0; j < HALF_WINDOWS_SIZE; j ++)
+    //        {
+    //            Spec[i * WINDOW_SIZE + j] = XNEW[i * HALF_WINDOWS_SIZE + j] * cexpf(I * yphase[i * HALF_WINDOWS_SIZE + j]);
+    //        }
+    //    }
+    //
+    //    for (int i = 0; i < SEGMENT_NUM; i ++)
+    //    {
+    //        for (int j = 1; j < HALF_WINDOWS_SIZE - 1; j ++)
+    //        {
+    //            Spec[i * WINDOW_SIZE + WINDOW_SIZE - j] = conjf(Spec[i * WINDOW_SIZE + j]);
+    //        }
+    //    }
+    //
+    //    int sigLength = ((SEGMENT_NUM - 1) * FRAME_STEP_SIZE + WINDOW_SIZE);
+    //    DEBUG("True Output Length: %d\n", sigLength);
+    //
+    //    // Reconstruct the new signal
+    //    for (int i = 0; i < SEGMENT_NUM; i ++)
+    //    {
+    //        int start = i * FRAME_STEP_SIZE;
+    //        float complex spec[WINDOW_SIZE];
+    //        memcpy(spec, Spec + i * WINDOW_SIZE, WINDOW_SIZE * sizeof(float complex));
+    //        ift(spec, WINDOW_SIZE);
+    //        for (int j = start; j < start + WINDOW_SIZE; j ++)
+    //        {
+    //            ReconstructedSignal[j] += creal(spec[j - start]);
+    //        }
+    //    }
+}
+
 int MMSESTSA85(float *Signal, float *OutputSignal)
 {
+    N_Count++;
+    DEBUG("Count: %d\n", N_Count);
     for (int i = 0; i < WINDOW_SIZE; i++)
     {
         OutputSignal[i] = Signal[i] * HammingWindows[i];
@@ -81,25 +122,22 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
         Y[i] = sqrtf(crealf(CY[i]) * crealf(CY[i]) + cimagf(CY[i]) * cimagf(CY[i]));
     }
 
-    if (N_Count < NIS)
+    if (N_Count <= NIS)
     {
         for (int i = 0; i < HALF_WINDOW_SIZE; i++)
         {
             N[i] += Y[i];
             LambdaD[i] += Y[i] * Y[i];
         }
-        N_Count++;
-
-        return 0;
+        return 2; // Initial Service
     }
-    else if (N_Count == NIS)
+    else if (N_Count == NIS + 1)
     {
         for (int i = 0; i < HALF_WINDOW_SIZE; i++)
         {
             N[i] /= NIS;
             LambdaD[i] /= NIS;
         }
-        N_Count++;
 
         SpeechFlag = 0;
         NoiseCounter = 100;
@@ -109,7 +147,7 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
     SpeechFlag = VAD(Y, N, &NoiseCounter);
 
     // Update Noise Info
-    if (SpeechFlag == 0) // If not Speech Update Noise Parameters
+    if (N_Count > NIS && SpeechFlag == 0) // If not Speech Update Noise Parameters
     {
         for (int i = 0; i < HALF_WINDOW_SIZE; i++)
         {
@@ -119,46 +157,29 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
     }
 
     // TODO: Post-Processing
+    float GammaNew[HALF_WINDOW_SIZE];
+    float xi[HALF_WINDOW_SIZE];
+    for (int i = 0; i < HALF_WINDOW_SIZE; i++)
+    {
+        GammaNew[i] = Y[i] * Y[i] / LambdaD[i]; // A Postiriori SNR
+        xi[i] = ALPHA * G[i] * G[i] * Gamma[i] + (1 - ALPHA) * fmaxf(GammaNew[i] - 1, 0);
+    }
+
+    memcpy(Gamma, GammaNew, HALF_WINDOW_SIZE * sizeof(float));
+
+    float nu[HALF_WINDOW_SIZE];
+    for (int i = 0; i < HALF_WINDOW_SIZE; i++)
+    {
+        nu[i] = Gamma[i] * xi[i] / (1 + xi[i]);                                                    // A Function Used in Calculation of Gain
+        G[i] = xi[i] / (1 + xi[i]) * expf(0.5F * -(float)Exponential_Integral_Ei((double)-nu[i])); // Log Spectral MMSE [Ephraim 1985]
+        X[i] = G[i] * Y[i];
+    }
+
+    PrintFloatArray(X, HALF_WINDOW_SIZE);
+    OverlapAdd2(X, OutputSignal, YPhase, WINDOW_SIZE, SHIFT_SIZE);
 
     return SpeechFlag;
 }
-
-//void OverlapAdd2(float *XNEW, float *yphase, float *ReconstructedSignal)
-//{
-//    float complex Spec[WINDOW_SIZE * SEGMENT_NUM];
-//    memset(Spec, 0, WINDOW_SIZE * SEGMENT_NUM * sizeof(float complex));
-//    for (int i = 0; i < SEGMENT_NUM; i ++)
-//    {
-//        for (int j = 0; j < HALF_WINDOWS_SIZE; j ++)
-//        {
-//            Spec[i * WINDOW_SIZE + j] = XNEW[i * HALF_WINDOWS_SIZE + j] * cexpf(I * yphase[i * HALF_WINDOWS_SIZE + j]);
-//        }
-//    }
-//
-//    for (int i = 0; i < SEGMENT_NUM; i ++)
-//    {
-//        for (int j = 1; j < HALF_WINDOWS_SIZE - 1; j ++)
-//        {
-//            Spec[i * WINDOW_SIZE + WINDOW_SIZE - j] = conjf(Spec[i * WINDOW_SIZE + j]);
-//        }
-//    }
-//
-//    int sigLength = ((SEGMENT_NUM - 1) * FRAME_STEP_SIZE + WINDOW_SIZE);
-//    DEBUG("True Output Length: %d\n", sigLength);
-//
-//    // Reconstruct the new signal
-//    for (int i = 0; i < SEGMENT_NUM; i ++)
-//    {
-//        int start = i * FRAME_STEP_SIZE;
-//        float complex spec[WINDOW_SIZE];
-//        memcpy(spec, Spec + i * WINDOW_SIZE, WINDOW_SIZE * sizeof(float complex));
-//        ift(spec, WINDOW_SIZE);
-//        for (int j = start; j < start + WINDOW_SIZE; j ++)
-//        {
-//            ReconstructedSignal[j] += creal(spec[j - start]);
-//        }
-//    }
-//}
 
 void ReadBuffer(float *Left, float *Right, int StepSize, float *Buffer, int BufferSize)
 {
