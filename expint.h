@@ -9,4 +9,6 @@
 
 float expint(int n, float x);
 
+float expint_interpolation(float x);
+
 #endif //MMSE_EXPINT_H

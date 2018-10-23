@@ -69,3 +69,37 @@ float expint(int n, float x)
 #undef FPMIN
 #undef EULER
 /* (C) Copr. 1986-92 Numerical Recipes Software ?421.1-9. */
+
+float expint_interpolation(float x)
+{
+    if (x <= 0)
+    {
+
+    }
+    else if (x < 0.001)
+    {
+
+    }
+    else if (x >= 0.001 && x < 0.5)
+    {
+
+    }
+    else if (x >= 0.5 && x < 1.5)
+    {
+
+    }
+    else if (x >= 1.5 && x < 3.5)
+    {
+
+    }
+    else if (x >= 3.5 && x < 11.436)
+    {
+
+    }
+    else
+    {
+
+    }
+
+    return 0;
+}
