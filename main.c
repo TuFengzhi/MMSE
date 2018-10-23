@@ -9,8 +9,8 @@
 float float_left[SHIFT_SIZE];
 float float_right[SHIFT_SIZE];
 
-float InputBuffer[WINDOW_SIZE * 2];
-float OutputBuffer[WINDOW_SIZE * 2];
+float InputBuffer[WINDOW_SIZE];
+float OutputBuffer[WINDOW_SIZE];
 
 typedef struct header_file
 {
@@ -69,7 +69,7 @@ int main()
                 for (int i = 0; i < SHIFT_SIZE * 2; i += 2)
                 {
                     buff[i] = (short)float_left[i / 2];
-                    buff[i + 1] = (short)float_right[i / 2];
+                    buff[i + 1] = (short)float_left[i / 2];
                 }
                 fwrite(buff, sizeof(short), nb, outFile); // Writing read data into output file
             }

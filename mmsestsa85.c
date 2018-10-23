@@ -164,7 +164,7 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
     for (int i = 0; i < HALF_WINDOW_SIZE; i++)
     {
         nu[i] = Gamma[i] * xi[i] / (1 + xi[i]);                                                    // A Function Used in Calculation of Gain
-        G[i] = xi[i] / (1 + xi[i]) * expf(0.5F * -(float)Exponential_Integral_Ei((double)-nu[i])); // Log Spectral MMSE [Ephraim 1985]
+        G[i] = xi[i] / (1 + xi[i]) * expf(0.5F * expint(1, nu[i])); // Log Spectral MMSE [Ephraim 1985]
         X[i] = G[i] * Y[i];
     }
 
