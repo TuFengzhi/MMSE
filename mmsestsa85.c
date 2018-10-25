@@ -144,18 +144,18 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
     {
         for (int i = 0; i < HALF_WINDOW_SIZE; i++)
         {
-            N[i] = (NOISE_LENGTH * N[i] + Y[i]) / (NOISE_LENGTH + 1);
-            LambdaD[i] = (NOISE_LENGTH * LambdaD[i] + Y[i] * Y[i]) / (NOISE_LENGTH + 1);
+            N[i] = (NOISE_LENGTH * N[i] + Y[i]) / (NOISE_LENGTH + 1) + EPSILON;
+            LambdaD[i] = (NOISE_LENGTH * LambdaD[i] + Y[i] * Y[i]) / (NOISE_LENGTH + 1) + EPSILON;
         }
     }
 
-    // TODO: Post-Processing
+    // Post-Processing
     float GammaNew[HALF_WINDOW_SIZE];
     float xi[HALF_WINDOW_SIZE];
     for (int i = 0; i < HALF_WINDOW_SIZE; i++)
     {
-        GammaNew[i] = Y[i] * Y[i] / LambdaD[i]; // A Postiriori SNR
-        xi[i] = ALPHA * G[i] * G[i] * Gamma[i] + (1 - ALPHA) * fmaxf(GammaNew[i] - 1, 0);
+        GammaNew[i] = Y[i] * Y[i] / LambdaD[i] + EPSILON; // A Postiriori SNR
+        xi[i] = ALPHA * G[i] * G[i] * Gamma[i] + (1 - ALPHA) * fmaxf(GammaNew[i] - 1, 0) + EPSILON;
     }
 
     memcpy(Gamma, GammaNew, HALF_WINDOW_SIZE * sizeof(float));
@@ -163,8 +163,8 @@ int MMSESTSA85(float *Signal, float *OutputSignal)
     float nu[HALF_WINDOW_SIZE];
     for (int i = 0; i < HALF_WINDOW_SIZE; i++)
     {
-        nu[i] = Gamma[i] * xi[i] / (1 + xi[i]);                                                    // A Function Used in Calculation of Gain
-        G[i] = xi[i] / (1 + xi[i]) * expf(0.5F * expint(1, nu[i])); // Log Spectral MMSE [Ephraim 1985]
+        nu[i] = Gamma[i] * xi[i] / (1 + xi[i]) + EPSILON;                                                    // A Function Used in Calculation of Gain
+        G[i] = xi[i] / (1 + xi[i]) * expf(0.5F * expint(1, nu[i])) + EPSILON; // Log Spectral MMSE [Ephraim 1985]
         X[i] = G[i] * Y[i];
     }
 

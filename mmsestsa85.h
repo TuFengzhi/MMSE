@@ -12,6 +12,7 @@
 #include "debugtools.h"
 #include "ifft.h"
 #include "expint.h"
+#include "const.h"
 
 #define PI 3.14159265359
 #define SAMPLE_RATE 16000

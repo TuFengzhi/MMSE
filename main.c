@@ -33,8 +33,9 @@ typedef struct header_file *header_p;
 
 int main()
 {
-    FILE *inFile = fopen("../wav/2.wav", "rb");       // Open wave file in read mode
-    FILE *outFile = fopen("../wav/2-MMSE.wav", "wb"); // Create output ( wave format) file in write mode
+    printf("%f %d\n", 32767.0F, (short)32767.0F);
+    FILE *inFile = fopen("../wav/recording.wav", "rb");       // Open wave file in read mode
+    FILE *outFile = fopen("../wav/recording-MMSE.wav", "wb"); // Create output ( wave format) file in write mode
 
     int count = 0;                                    // For counting number of frames in wave file.
     short buff[WINDOW_SIZE * 2];                      // short int used for 16 bit as input data format is 16 bit PCM audio
@@ -68,6 +69,14 @@ int main()
 
                 for (int i = 0; i < SHIFT_SIZE * 2; i += 2)
                 {
+                    if (float_left[i / 2] > 0)
+                    {
+                        if (float_left[i / 2] > 32767)
+                        {
+                            printf("%f %d\n", float_left[i / 2], (short)float_left[i / 2]);
+                            float_left[i / 2] = 32767;
+                        }
+                    }
                     buff[i] = (short)float_left[i / 2];
                     buff[i + 1] = (short)float_left[i / 2];
                 }
