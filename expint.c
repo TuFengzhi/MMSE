@@ -3,6 +3,7 @@
 //
 
 #include "expint.h"
+#include "const.h"
 
 #include <math.h>
 
@@ -87,30 +88,50 @@ float expint(int n, float x)
 #undef EULER
 
 /* (C) Copr. 1986-92 Numerical Recipes Software ?421.1-9. */
+float linear_value(float Start, float Step, float Input, float *Space)
+{
+    int Index = (int)((Input - Start) / Step);
+    float X1 = Start + Step * Index;
+    float X2 = Start + Step * (Index + 1);
+    float Y1 = Space[Index];
+    float Y2 = Space[Index + 1];
+
+    float Ans = Y1 + (Y2 - Y1) / (X2 - X1) * (Input - X1);
+    printf("%f %f %f %f %f %f\n", X1, Input, X2, Y1, Ans, Y2);
+    return Ans;
+}
 
 float expint_interpolation(float x)
 {
-    if (x <= 0)
+    float ans = 0;
+    if (x < 0.001F)
     {
+        ans = 6.33153936413615F;
     }
-    else if (x < 0.001)
+    else if (x < 0.5F)
     {
+        // 0.001:0.001:0.5
+        linear_value(0.001, 0.001, x, ExpintTable1);
     }
-    else if (x >= 0.001 && x < 0.5)
+    else if (x < 1.5F)
     {
+        // 0.5:0.004:1.5
+        linear_value(0.5, 0.004, x, ExpintTable2);
     }
-    else if (x >= 0.5 && x < 1.5)
+    else if (x < 3.5F)
     {
+        // 1.5:0.016:3.5
+        linear_value(1.5, 0.016, x, ExpintTable3);
     }
-    else if (x >= 1.5 && x < 3.5)
+    else if (x < 11.436F)
     {
-    }
-    else if (x >= 3.5 && x < 11.436)
-    {
+        // 3.5:0.128:11.5
+        linear_value(3.5, 0.128, x, ExpintTable4);
     }
     else
     {
+        ans = 8.73366540296160e-07F;
     }
 
-    return 0;
+    return  ans;
 }

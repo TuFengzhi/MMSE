@@ -19,10 +19,10 @@
 #define WINDOW_SIZE 512 // 0.032s ~ 32ms
 #define HALF_WINDOW_SIZE 257
 #define SHIFT_PERCERTAGE 0.625
-#define SHIFT_SIZE 320 // 0.02s ~ 20ms
+#define SHIFT_SIZE 256 // 0.02s ~ 20ms
 #define NIS 24         // NS=fix((IS*fs-W)/(SP*W) +1): Number of initial silence segments 0.5s
 
-#define ALPHA 0.99F    // Used in smoothing xi (For Deciesion Derected method for estimation of A Priori SNR)
+#define ALPHA 0.95F    // Used in smoothing xi (For Deciesion Derected method for estimation of A Priori SNR)
 #define NOISE_LENGTH 9 // This is a smoothing factor for the noise updating
 
 int MMSESTSA85(float *Signal, float *OutputSignal);
